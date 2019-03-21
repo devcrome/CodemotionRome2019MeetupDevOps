@@ -12,10 +12,9 @@ spec:
     spec:
       containers:
       - name: codemotion-dev-circle-back
-        image: redis
+        image: congiuluc/devcromemeetupdemobackend:dev
         ports:
-        - containerPort: 6379
-          name: redis
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
@@ -24,7 +23,7 @@ metadata:
   namespace: develop
 spec:
   ports:
-  - port: 6379
+  - port: 80
   selector:
     app: codemotion-dev-circle-back
 ---
@@ -47,7 +46,7 @@ spec:
     spec:
       containers:
       - name: codemotion-dev-circle-front
-        image: microsoft/azure-vote-front:v1
+        image: congiuluc/devcromemeetupdemofrontend:dev
         ports:
         - containerPort: 80
         resources:
@@ -55,9 +54,6 @@ spec:
             cpu: 250m
           limits:
             cpu: 500m
-        env:
-        - name: REDIS
-          value: "codemotion-dev-circle-back"
 ---
 apiVersion: v1
 kind: Service
