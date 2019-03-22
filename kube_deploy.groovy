@@ -17,6 +17,8 @@ pipeline {
 
                     slaveAbsolutePath = pwd()
                     kubeConfigPath = "${slaveAbsolutePath}"
+
+                    currentBuild.displayName = "${env.BUILD_DISPLAY_NAME}-${GIT_COMMIT_SHORT}"
                 }
             }
         }
