@@ -1,13 +1,3 @@
-void setBuildStatus(String message, String state) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/devcrome/CodemotionRome2019MeetupDevOps"],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
-}
-
 pipeline {
     agent { label "master" }
     stages {
@@ -22,6 +12,7 @@ pipeline {
                     slaveAbsolutePath = pwd()
                     kubeConfigPath = "${slaveAbsolutePath}"
                     k8sFolder = 'k8s'
+                    echo "gitProjectBranch: ${gitProjectBranch}"
                 }
             }
         }
@@ -84,8 +75,6 @@ pipeline {
                         sh "kubectl get service codemotion-dev-circle-front --namespace ${namespace}"
                     }
                 }
-
-                setBuildStatus("Build complete", "SUCCESS");
             }
         }
     }
