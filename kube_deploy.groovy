@@ -13,7 +13,6 @@ pipeline {
                     kubeConfigPath = "${slaveAbsolutePath}"
                     k8sFolder = 'k8s'
                     echo "gitProjectBranch: ${gitProjectBranch}"
-                    echo "payload: ${payload}"
                 }
             }
         }
