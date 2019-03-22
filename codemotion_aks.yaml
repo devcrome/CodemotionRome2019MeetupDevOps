@@ -2,7 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: codemotion-dev-circle-back
-  namespace: develop
+  namespace: stage
 spec:
   replicas: 1
   template:
@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: codemotion-dev-circle-back
-        image: congiuluc/devcromemeetupdemobackend:dev
+        image: congiuluc/devcromemeetupdemobackend:latest
         ports:
         - containerPort: 80
 ---
@@ -20,7 +20,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: codemotion-dev-circle-back
-  namespace: develop
+  namespace: stage
 spec:
   ports:
   - port: 80
@@ -31,7 +31,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: codemotion-dev-circle-front
-  namespace: develop
+  namespace: stage
 spec:
   replicas: 1
   strategy:
@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
       - name: codemotion-dev-circle-front
-        image: congiuluc/devcromemeetupdemofrontend:dev
+        image: congiuluc/devcromemeetupdemofrontend:latest
         ports:
         - containerPort: 80
         resources:
@@ -59,7 +59,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: codemotion-dev-circle-front
-  namespace: develop
+  namespace: stage
 spec:
   type: LoadBalancer
   ports:
