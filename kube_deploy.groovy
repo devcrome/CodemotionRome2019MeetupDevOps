@@ -8,7 +8,7 @@ pipeline {
 
                     gitProjectUrl = "${pipe_project_url}"
                     gitProjectBranch = "${pipe_project_branch}"
-                    namespace = "${pipe_k8s_namespace}"
+                    namespace = "${pipe_project_branch}"
 
                     slaveAbsolutePath = pwd()
                     kubeConfigPath = "${slaveAbsolutePath}"
