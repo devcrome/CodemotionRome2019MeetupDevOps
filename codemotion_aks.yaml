@@ -46,7 +46,7 @@ spec:
     spec:
       containers:
       - name: codemotion-dev-circle-front
-        image: congiuluc/devcromemeetupdemofrontend:dev
+        image: congiuluc/devcromemeetupdemofrontend:v2
         ports:
         - containerPort: 80
         resources:
