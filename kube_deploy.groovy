@@ -8,6 +8,7 @@ pipeline {
 
                     gitProjectUrl = "${pipe_project_url}"
                     gitProjectBranch = "${pipe_project_branch}"
+                    namespace = "${pipe_k8s_namespace}"
 
                     slaveAbsolutePath = pwd()
                     kubeConfigPath = "${slaveAbsolutePath}"
@@ -44,14 +45,14 @@ pipeline {
         stage('Rollout status') {
             steps {
                 script {
-                    sh "kubectl rollout status deployment/codemotion-dev-circle-front --namespace develop"
+                    sh "kubectl rollout status deployment/codemotion-dev-circle-front --namespace ${namespace}"
                 }
             }
         }
         stage('Watch service status') {
             steps {
                 script {
-                    sh "kubectl get service codemotion-dev-circle-front --namespace develop"
+                    sh "kubectl get service codemotion-dev-circle-front --namespace ${namespace}"
                 }
             }
         }
