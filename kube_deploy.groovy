@@ -41,6 +41,13 @@ pipeline {
                 }
             }
         }
+        stage('Rollout status') {
+            steps {
+                script {
+                    sh "kubectl rollout status deployment/codemotion-dev-circle-front --namespace develop"
+                }
+            }
+        }
         stage('Watch service status') {
             steps {
                 script {
@@ -48,22 +55,6 @@ pipeline {
                 }
             }
         }
-        // stage('Force reload of Deployment') {
-        //     steps {
-        //             script {
-        //                 echo "-> ${k8sAppName}"
-        //                 def reloadPatch = '{\\"spec\\":{\\"template\\":{\\"metadata\\":{\\"labels\\":{\\"date\\":\\"`date +\'%s\'`\\"}}}}}'
-        //                 sh "kubectl patch deployment ${k8sAppName} -p \"${reloadPatch}\" --kubeconfig ${kubeConfigPath}/kubeconf"
-        //             }
-        //     }
-        // }
-        // stage('Rollout status') {
-        //     steps {
-        //         script {
-        //             sh "kubectl rollout status deployment/${k8sAppName} --kubeconfig ${kubeConfigPath}/kubeconf "
-        //         }
-        //     }
-        // }
     }
 }
 
