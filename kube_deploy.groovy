@@ -1,3 +1,13 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/devcrome/CodemotionRome2019MeetupDevOps"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
 pipeline {
     agent { label "master" }
     stages {
@@ -35,20 +45,20 @@ pipeline {
                 }
             }
         }
-        stage('Load git infos') {
-            steps {
-                dir("${k8sFolder}") {
-                    script {
-                        GIT_COMMIT_SHORT = sh(
-                            script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
-                            returnStdout: true
-                        )
-                        echo "${GIT_COMMIT_SHORT}"
-                        currentBuild.displayName = "${env.BUILD_DISPLAY_NAME}-${GIT_COMMIT_SHORT}"
-                    }
-                }
-            }
-        }
+        // stage('Load git infos') {
+        //     steps {
+        //         dir("${k8sFolder}") {
+        //             script {
+        //                 GIT_COMMIT_SHORT = sh(
+        //                     script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
+        //                     returnStdout: true
+        //                 )
+        //                 echo "${GIT_COMMIT_SHORT}"
+        //                 currentBuild.displayName = "${env.BUILD_DISPLAY_NAME}-${GIT_COMMIT_SHORT}"
+        //             }
+        //         }
+        //     }
+        // }
         stage('Deploy on kubernetes') {
             steps {
                 dir("${k8sFolder}") {
@@ -74,6 +84,8 @@ pipeline {
                         sh "kubectl get service codemotion-dev-circle-front --namespace ${namespace}"
                     }
                 }
+
+                setBuildStatus("Build complete", "SUCCESS");
             }
         }
     }
