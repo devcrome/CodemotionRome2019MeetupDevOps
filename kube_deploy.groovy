@@ -5,6 +5,11 @@ pipeline {
             steps {
                 script {
                     echo sh(script: 'env|sort', returnStdout: true)
+                    GIT_COMMIT_SHORT = sh(
+                        script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
+                        returnStdout: true
+                    )
+                    echo "${GIT_COMMIT_SHORT}"
 
                     gitProjectUrl = "${pipe_project_url}"
                     gitProjectBranch = "${pipe_project_branch}"
