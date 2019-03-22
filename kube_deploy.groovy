@@ -12,8 +12,6 @@ pipeline {
                     slaveAbsolutePath = pwd()
                     kubeConfigPath = "${slaveAbsolutePath}"
                     k8sFolder = 'k8s'
-
-                    currentBuild.displayName = "${env.BUILD_DISPLAY_NAME}-${GIT_COMMIT_SHORT}"
                 }
             }
         }
@@ -39,15 +37,13 @@ pipeline {
         }
         stage('Load git infos') {
             steps {
-                dir("${k8sFolder}") {
-                    script {
-                        GIT_COMMIT_SHORT = sh(
-                            script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
-                            returnStdout: true
-                        )
-                        echo "${GIT_COMMIT_SHORT}"
-                        currentBuild.displayName = "${env.BUILD_DISPLAY_NAME}-${GIT_COMMIT_SHORT}"
-                    }
+                script {
+                    GIT_COMMIT_SHORT = sh(
+                        script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
+                        returnStdout: true
+                    )
+                    echo "${GIT_COMMIT_SHORT}"
+                    currentBuild.displayName = "${env.BUILD_DISPLAY_NAME}-${GIT_COMMIT_SHORT}"
                 }
             }
         }
