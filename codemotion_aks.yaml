@@ -33,7 +33,7 @@ metadata:
   name: codemotion-dev-circle-front
   namespace: develop
 spec:
-  replicas: 1
+  replicas: 5
   strategy:
     rollingUpdate:
       maxSurge: 1
