@@ -38,8 +38,8 @@ pipeline {
             }
         }
         stage('Load git infos') {
-            dir("${k8sFolder}") {
-                steps {
+            steps {
+                dir("${k8sFolder}") {
                     script {
                         GIT_COMMIT_SHORT = sh(
                             script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
@@ -52,8 +52,8 @@ pipeline {
             }
         }
         stage('Deploy on kubernetes') {
-            dir("${k8sFolder}") {
-                steps {
+            steps {
+                dir("${k8sFolder}") {
                     script {
                         sh "kubectl apply -f . "
                     }
@@ -61,8 +61,8 @@ pipeline {
             }
         }
         stage('Rollout status') {
-            dir("${k8sFolder}") {
-                steps {
+            steps {
+                dir("${k8sFolder}") {
                     script {
                         sh "kubectl rollout status deployment/codemotion-dev-circle-front --namespace ${namespace}"
                     }
@@ -70,8 +70,8 @@ pipeline {
             }
         }
         stage('Watch service status') {
-            dir("${k8sFolder}") {
-                steps {
+            steps {
+                dir("${k8sFolder}") {
                     script {
                         sh "kubectl get service codemotion-dev-circle-front --namespace ${namespace}"
                     }
